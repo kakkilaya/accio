@@ -8,15 +8,19 @@ if [ ! -d "$PREFIX" ]; then
 	exit
 fi
 
-if [ $# -eq 0 ]; then
-	echo "error: no keywords given."
-	exit
-fi
+while read -a line; do
+	case "${line[0]}" in
+		"accio")
+			regex=".*"
 
-regex=".*"
-
-for kw in "$@"; do
-	regex="$regex(?<![[:alnum:]])$kw(?![[:alnum:]]).*"
+			for kw in "${line[@]:1}"; do
+				regex="$regex(?<![[:alnum:]])$kw(?![[:alnum:]]).*"
+			done
+			
+			find $PREFIX -type f -name links -execdir grep -iP "$regex" "{}" ";"
+			;;
+		*)
+			echo "error: unrecognized command"
+			;;
+	esac
 done
-
-find $PREFIX -type f -name links -execdir grep -iP "$regex" "{}" ";"
