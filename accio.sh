@@ -9,8 +9,17 @@ if [ ! -d "$PREFIX" ]; then
 fi
 
 while read -a line -p ">>>"; do
+	if [ ${#line[@]} -eq 0 ]; then
+		continue
+	fi
+
 	case "${line[0]}" in
 		"accio")
+			if [ ${#line[@]} -eq 1 ]; then
+				echo "error: no keywords given"
+				continue
+			fi
+
 			regex=".*"
 
 			for kw in "${line[@]:1}"; do
