@@ -17,7 +17,9 @@ while read -a line -p ">>>"; do
 				regex="$regex(?<![[:alnum:]])$kw(?![[:alnum:]]).*"
 			done
 			
-			find $PREFIX -type f -name links -execdir grep -iP "$regex" "{}" ";"
+			find $PREFIX -type f -name links -execdir grep -iP "$regex" "{}" ";" \
+				| awk '{print NR, $0}' \
+				| column -t
 			;;
 		*)
 			echo "error: unrecognized command"
