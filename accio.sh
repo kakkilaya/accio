@@ -8,7 +8,7 @@ if [ ! -d "$PREFIX" ]; then
 	exit
 fi
 
-while read -a line; do
+while read -a line -p ">>>"; do
 	case "${line[0]}" in
 		"accio")
 			regex=".*"
